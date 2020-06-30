@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="./graphics/ico.png">
+	<link rel="Stylesheet" type="text/css" href="./files/style.css" />
+	<script src="./files/script.js"></script>
+	<meta charset="UTF-8">
+	<title>Yoga</title>
+</head>
+<body>
+	<div id="asansPlace" class="asansPlace"></div>
+	<div class="yogaPlanChoice">
+		<div class="planChoiceContainerDesktop" id="planChoiceContainerDesktop">
+			<form>
+				<label>
+					<input type="radio" id="asansShow" name="asans"> Pokaż asany
+				</label>
+				<label>
+					<input type="radio" id="asansRundom" name="asans"> Losuj asany
+				</label>
+				<label>
+					<input type="radio" id="yogaMorning" name="yogaPlan"> Joga poranna
+				</label>	
+				<label>
+					<input type="radio" id="yogaEvening" name="yogaPlan"> Joga wieczorna
+				</label><br>
+				<label>
+					<input type="radio" id="yoga15" name="yogaPlan"> Joga 15 min
+				</label>
+				<label>
+					<input type="radio" id="yoga30" name="yogaPlan"> Joga 30 min
+				</label>
+				<label>
+					<input type="radio" id="yoga60" name="yogaPlan"> Joga 60 min
+				</label>
+			</form>
+			
+			<input type="submit" id="rundomAsanSubmit" value="START">
+		</div>
+		<div class="yogaPlanChoiceButton">&#62;</div>
+		<div class="PlanChoiceContainerMobile">
+			
+		</div>
+	</div>
+	<div class="menu">
+		<div class="musicChoice">
+			<label> 
+				<input type="radio" id="music1" name="music" checked>muzyka
+			</label>
+			<label>
+				<input type="radio" id="music2" name="music">deszcz
+			</label>
+			<label> 
+				<input type="radio" id="music3" name="music">fale
+			</label>
+			<label> 
+				<input type="radio" id="music4" name="music">staw
+			</label>
+		</div>
+		<div class="musicMute">
+			<input type="checkbox" id="musicOff" class="offscreen" />
+    		<label for="musicOff" class="switch"></label>
+		</div>
+	</div>
+	<div class="conteiner">
+		<div class="animationPlace">
+			<div id="timerSide"></div>
+			<div id="animation" class="animation"></div>
+		</div>
+		<div class="verticalLine"></div>
+		<div class="procent" id="procent"></div>
+		<div class="content" id="information">
+			<p>Wprowadź ilość rund i czas pojedynczej rundy bądź wciśnij <span class="toUpper">"enter"</span>, by rozpocząć sesję na domyślnych ustawieniach - 55 rund po 70 sekund (~65min).</p>
+
+			<span class="shortcuts">Sterowanie z klawiatury:<br> p - pauza, q - wyjście, enter - rozpoczęcie, f - wł/wył pełnego ekranu, s - stop, m - wyciszenie. </span>
+			<span class="shortcuts" id="mobileInformation">Kliknij <span class="toUpper">"start"</span>, by rozpocząć sesję na domyślnych ustawieniach:<br>55 rund po 70 sekund (~65min).</span>
+		</div>
+		<div class="control">
+			<input type="text" class="dataIn" id="exercises" placeholder="Ćwiczenia">
+			<input type="text" class="dataIn" id="seconds" placeholder="Czas">
+			<br>
+				<i class="icon-fast-fw" id="tosia"></i>
+				<i class="icon-pause visibility" id="pause"></i>
+				<i class="icon-stop visibility" id="stop"></i>
+				<i class="icon-eject visibility" id="eject"></i>
+			</div>
+			<div class="progress">
+				<div id="progressBar" class="progressBar"></div>
+			</div>
+		</div>	
+		<div class="clock" id="clock"></div>	
+		<!-- Hidden sound players with a script supporting it - paths to background audio files are adding by an external script -->
+		<audio id="roundsSound">
+			<source src="./music/rounds.mp3" type="audio/mpeg">
+		</audio>
+
+		<audio id="sessionEnd">
+			<source src="./music/end.mp3" type="audio/mpeg">
+		</audio>
+		
+		<audio id="musicExercises" loop>
+			<source src="./music/music.mp3" type="audio/mpeg">
+		</audio>
+	</body>
+</html>
