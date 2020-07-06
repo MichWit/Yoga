@@ -228,6 +228,7 @@ function engin(){
 		music.pause();
 		music.currentTime = 0;
 		sessionEnd();
+		flagProgressBarClock = false
 		if (asanFlag){
 			asansPlaceAfter.className = "asansPlaceHidden";
 		}
@@ -260,11 +261,12 @@ var	t = 0; // Varible for counting time
 flagProgressBarClock = true;
 function progressBarStatus(){
 	var exerciseNumber = document.getElementById("exercises").value;
+
 	var exerciseTime = document.getElementById("seconds").value;
 	
 	if (exerciseNumber == ""){exerciseNumber = 55;}
-	if (exerciseTime == ""){exerciseTime = 65;}
-	
+	if (exerciseTime == ""){exerciseTime = 70;}
+
 	var	z = (exerciseNumber * exerciseTime) / 100; // Varible for progressBar 
 
 	var progressBar = document.getElementById("progressBar");
@@ -272,7 +274,7 @@ function progressBarStatus(){
 	r++;
 	t = 1000 * z;
 	document.getElementById("procent").innerHTML = r + "%";
-	if (r >= 100){flagProgressBarClock = false}
+	
 	if (flagProgressBarClock){setTimeout("progressBarStatus()", t);}
 }
 
