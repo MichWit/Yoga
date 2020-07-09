@@ -27,26 +27,26 @@ input:hover
 	position: fixed;
 	top: 50%;
 	transform: translate(0%, -50%);
-	left: -800px;
-	width: 400px;
-	height: 50%;
-	background-color: rgba(128, 128, 128, 0.5);
+	left: -100%;
+	width: 43%;
+	height: 98%;
 	z-index: 555;
 	border: 1px solid #614369;
 	border-radius:50px 50px 50px 50px;
-
+	color: red;
 }
 
 .asansPlaceShow {
 	position: fixed;
 	top: 50%;
 	transform: translate(0%, -50%);
-	left: -800px;
-	width: 400px;
-	height: 50%;
-	background-color: rgba(128, 128, 128, 0.5);
+	left: -100%;
+	width: 99%;
+	height: 90%;
+	margin-left: 3px;
+	background-image: linear-gradient(rgba(247, 247, 247, 0.1), rgba(247, 247, 247, 0.5));	
 	z-index: 555;
-	border: 1px solid #614369;
+	border: 5px solid #614369;
 	border-radius:50px 50px 50px 50px;
 	animation: show 2s;	
 	animation-delay: 200ms;
@@ -55,10 +55,10 @@ input:hover
 
 @keyframes show {
 	0% {
-		left: -800px;
+		left: -100%;
 	}
 	100% {
-		left: 22%;
+		left: 0;
 	}
 }
 
@@ -66,12 +66,12 @@ input:hover
 	position: fixed;
 	top: 50%;
 	transform: translate(0%, -50%);
-	left: -800px;
-	width: 400px;
-	height: 50%;
-	background-color: rgba(128, 128, 128, 0.534);
+	left: -100px;
+	width: 100%;
+	height: 90%;
+	background-color: rgba(247, 247, 247, 0.7);
 	z-index: 555;
-	border: 1px solid #614369;
+	border: 5px solid #614369;
 	border-radius:50px 50px 50px 50px;
 	animation-delay: 1500ms;
 	animation: hidden 2s;
@@ -80,10 +80,10 @@ input:hover
 
 @keyframes hidden {
 	0% {
-		left: 22%;
+		left: 0;
 	}
 	100% {
-		left: -800px;
+		left: -102%;
 	}
 }
 
@@ -92,8 +92,8 @@ input:hover
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 500px;
-	height: auto;
+	width: 90%;
+	height: 100%;
 	animation: loadImage 2s;
 	animation-fill-mode: forwards;
 }
@@ -241,8 +241,9 @@ label {
     display: inline-block;
     width: 60px;
     height: 25px;
-    background-color: rgb(158, 158, 158, .8);
-    border-radius: 25px;
+    background-color: rgb(0, 133, 18);
+	border-radius: 25px;
+	border: 1px dotted rgb(59, 59, 59);
     transition: all 0.3s;
     cursor: pointer;
 }
@@ -252,23 +253,24 @@ label {
     position: absolute;
     width: 30px;
     height: 30px;
-    border-radius: 28px;
-    background-color: #5d4863;
+	border-radius: 20px;
+	border: 1px dotted rgb(165, 55, 55);
+    background-color: rgb(184, 182, 182);
     top: -3px;
     left: -3px;
-    transition: all 0.4s;
+    transition: all 0.6s;
 }
 .switch:hover::after {
 	transform: scale(1.1);
-	background-color: #f6f6f6;
+	background-color: rgb(165, 55, 55);
 }
 
 input[type='checkbox']:checked + .switch::after {
-    transform: translateX(36px);
+	transform: translateX(36px);
 }
 
 input[type='checkbox']:checked + .switch {
-    background-color: #645568;;
+    background-color: rgb(165, 55, 55);
 }
 
 .offscreen {
@@ -276,7 +278,7 @@ input[type='checkbox']:checked + .switch {
     left: -9999px;
 }
 
-.conteiner {
+.container {
 	position: fixed;
     top: 40%;
     left: 50%;
@@ -305,7 +307,6 @@ input[type='checkbox']:checked + .switch {
 	animation: animation 10s infinite linear;
 	margin-left: auto;
 	margin-right: auto;
-
 }
 
 @keyframes animation 
@@ -389,19 +390,19 @@ input[type='checkbox']:checked + .switch {
 .control > input {
 	width: 150px;
 	height: 35px;
-	border-bottom: 1px solid;
+	border-bottom: 2px solid;
 	border-top: none;
 	border-left: none;
 	border-right: none;
 	border-radius: 10px;
-	border-color: rgb(158, 158, 158);
+	border-color: rgb(165, 55, 55);
 	font-size: 20px;
 	font-weight: 700;
-	background-color: rgb(158, 158, 158, .5);
+	background-color: rgba(214, 214, 214, 0.733);
 	margin: 10px;
 	text-align: center;
 	transition-duration: 0.5s;
-	color: #fff;
+	color: rgb(95, 95, 95);
 }
 
 .control > input.dataIn:hover {
@@ -503,6 +504,19 @@ input[type='checkbox']:checked + .switch {
 	color: rgb(158, 158, 158, .5);
 }
 
+.procentAsans {
+	visibility: visible;
+	position: absolute;
+	right: 8%;
+	top: 40%;
+	width: 100px;
+	height: 100px;
+	font-size: 55px;
+	font-weight: 700;
+	color: rgb(158, 158, 158, 1);
+	z-index: 99999;
+}
+
 .progress{
 	position: fixed;
 	right: 35px;
@@ -538,6 +552,18 @@ input[type='checkbox']:checked + .switch {
 	color:  #645568;
 }
 
+.clockAsans {
+	position: absolute;
+	top: 5px;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	text-align: center;
+	width: 300px;
+	padding-bottom: 10px;
+	font-weight: 700;
+	font-size: 24px;
+	color:  #645568;
+}
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -585,7 +611,11 @@ body {
 	bottom: 60px;
 	margin-left: 50%;
 	transform: translate(-50%, -50%);
-	font-size: 14px;
+}
+
+.musicMuteAsans {
+	position: absolute;
+	left: 10px
 }
 
 .switch {
@@ -601,7 +631,7 @@ body {
 }
 
 .switch::after {
-    content: '';
+	content: '';
     position: absolute;
     width: 20px;
     height: 20px;

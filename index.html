@@ -43,7 +43,7 @@
 			
 		</div>
 	</div>
-	<div class="menu">
+	<div class="menu" id="menu">
 		<div class="musicChoice">
 			<label> 
 				<input type="radio" id="music1" name="music" checked>muzyka
@@ -58,12 +58,12 @@
 				<input type="radio" id="music4" name="music">staw
 			</label>
 		</div>
-		<div class="musicMute">
+		<div class="musicMute" id="musicMute">
 			<input type="checkbox" id="musicOff" class="offscreen" />
     		<label for="musicOff" class="switch"></label>
 		</div>
 	</div>
-	<div class="conteiner">
+	<div class="container" id="container">
 		<div class="animationPlace">
 			<div id="timerSide"></div>
 			<div id="animation" class="animation"></div>
@@ -71,14 +71,14 @@
 		<div class="verticalLine"></div>
 		<div class="procent" id="procent"></div>
 		<div class="content" id="information">
-			<p>Wprowadź ilość rund i czas pojedynczej rundy bądź wciśnij <span class="toUpper">"enter"</span>, by rozpocząć sesję na domyślnych ustawieniach - 55 rund po 70 sekund (~65min).</p>
+			<p>Wprowadź ilość rund i czas pojedynczej rundy (w sekundach), bądź wciśnij <span class="toUpper">"enter"</span>, by rozpocząć sesję na domyślnych ustawieniach - 55 rund po 70 sekund (1:04:11).</p>
 
 			<span class="shortcuts">Sterowanie z klawiatury:<br> p - pauza, q - wyjście, enter - rozpoczęcie, f - wł/wył pełnego ekranu, s - stop, m - wyciszenie. </span>
-			<span class="shortcuts" id="mobileInformation">Kliknij <span class="toUpper">"start"</span>, by rozpocząć sesję na domyślnych ustawieniach:<br>55 rund po 70 sekund (~65min).</span>
+			<span class="shortcuts" id="mobileInformation">Kliknij <span class="toUpper">"start"</span>, by rozpocząć sesję na domyślnych ustawieniach:<br>55 rund po 70 sekund (1:04:11).</span>
 		</div>
 		<div class="control">
-			<input type="text" class="dataIn" id="exercises" placeholder="Ćwiczenia">
-			<input type="text" class="dataIn" id="seconds" placeholder="Czas">
+			<input type="text" class="dataIn" id="exercises" placeholder="Ilość powt.">
+			<input type="text" class="dataIn" id="seconds" placeholder="Czas w sek.">
 			<br>
 				<i class="icon-fast-fw" id="tosia"></i>
 				<i class="icon-pause visibility" id="pause"></i>
