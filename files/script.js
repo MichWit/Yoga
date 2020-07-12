@@ -5,28 +5,59 @@ window.onload = function(){
 	document.getElementById("pause").addEventListener("click", pauseTimer);
 	document.getElementById("stop").addEventListener("click", sessionStop);
 	document.getElementById("eject").addEventListener("click", reload);
-	document.getElementsByClassName("yogaPlanChoice")[0].addEventListener("click", showYogaPlanChoice);
+	document.getElementsByClassName("yogaPlanChoiceButton")[0].addEventListener("click", showYogaPlanChoice);
+	document.getElementById("asansShow").addEventListener("click", startYogaPlanClearShowButton);
+	document.getElementById("asansRundom").addEventListener("click", startYogaPlanClearShowButton);
+
 // Asans 		
-	document.getElementById("yogaMorning").addEventListener("click", yogaPlan);
-	document.getElementById("yogaEvening").addEventListener("click", yogaPlan);
-	document.getElementById("yoga15").addEventListener("click", yogaPlan);
-	document.getElementById("yoga30").addEventListener("click", yogaPlan);
-	document.getElementById("yoga60").addEventListener("click", yogaPlan);
+	document.getElementById("yogaMorning").addEventListener("click", yogaPlanButtonShow);
+	document.getElementById("yogaEvening").addEventListener("click", yogaPlanButtonShow);
+	document.getElementById("yoga15").addEventListener("click", yogaPlanButtonShow);
+	document.getElementById("yoga30").addEventListener("click", yogaPlanButtonShow);
+	document.getElementById("yoga60").addEventListener("click", yogaPlanButtonShow);
+	document.getElementById("rundomAsanClear").addEventListener("click", startYogaPlanClear);
 	document.getElementById("rundomAsanSubmit").addEventListener("click", startYogaPlan);
 	document.getElementById("planChoiceContainerDesktop").addEventListener("mouseleave", showYogaPlanChoice);
+	document.getElementsByClassName("yogaPlanChoiceButton")[0].addEventListener("mouseover", showYogaPlanChoice);
 	
 // Keyboard control
 	document.addEventListener("keypress", keyboardControl);
 	document.addEventListener("dblclick", fScreen);
 }
- 
+
 // Start exercising -
 function enterData(){
+// checking if a plan form top menu has been selected
+	yogaDay = document.getElementById("yogaMorning");
+	yogaEvening = document.getElementById("yogaEvening");
+	yoga15 = document.getElementById("yoga15");
+	yoga30 = document.getElementById("yoga30");
+	yoga60 = document.getElementById("yoga60");
+
+	if (yogaDay.checked || yogaEvening.checked || yoga15.checked || yoga30.checked || yoga60.checked){
+		if (confirm("Wybrano jeden z planów. Jeśli chcesz go realizować, kliknij przycisk 'Ok' a następnie przejdź do górnego menu i tam kliknij przycisk 'Start'. Jeśli jednak wolisz kontynuować bez planu, po prostu kliknij 'Anuluj'."))
+		return;
+	}
+	else {}
+
 	flagFullscrin = true;
 	flagEnter = false;
 
 	exerciseNumber = document.getElementById("exercises").value;
 	exerciseTime = document.getElementById("seconds").value - 1;
+
+// Assignment of default values
+	if (exerciseNumber == ""){exerciseNumber = 55;}
+	if (exerciseTime == "-1"){exerciseTime = 69;}
+
+	// Checking the correctness of the entered data: numbers, not string
+	var exerciseNumberCheck = parseFloat(exerciseNumber);
+	var exerciseTimeCheck = parseFloat(exerciseTime);
+
+	if(isNaN(exerciseNumberCheck) || isNaN(exerciseTimeCheck)){
+		alert("Wprowadzona wartość nie jest liczbą. Proszę wprowadź poprawne dane.");
+		return;
+	}
 
 // Checking the status of the music mute button -
 	var music = document.getElementById("musicExercises");
@@ -134,6 +165,7 @@ function pauseTimer(){
 // Page reload - 
 function reload(){
 	location.reload();
+	startYogaPlanClear();
 }
 
 // End of round sound - 
@@ -159,9 +191,6 @@ function sessionStop(){
 	stop = false;
 	flagProgressBarClock = false;
 }
-// Checking yoga plan and setup variables -
-
-
 
 // Engine - measures time and rounds -
 var x = 0, // Variable to count down seconds
@@ -175,10 +204,6 @@ function engin(){
 		pause = false;
 		music.play();
 	}
-
-// Assignment of default values
-	if (exerciseNumber == ""){exerciseNumber = 55;}
-	if (exerciseTime == "-1"){exerciseTime = 69;}
 
 	var timerMain = document.getElementById("information");
 	timerMain.className = "timerMain";
@@ -197,6 +222,14 @@ function engin(){
 		sessionEnd();
 		flagProgressBarClock = false
 		if (asanFlag){
+			document.getElementById("container").style.visibility = "visible";
+			document.getElementById("menu").style.visibility = "visible";
+			document.getElementById("progressBar").style.visibility = "visible";
+			document.getElementById("musicMute").style.visibility = "visible";
+			document.getElementById("procent").className = "procent";
+			document.getElementById("clock").className = "clock";
+			document.getElementById("musicMute").className = "musicMute";
+			document.body.style.backgroundImage = "url('../graphics/03.jpg')";
 			asansPlaceAfter.className = "asansPlaceHidden";
 		}
 		timerMain.innerHTML = "Runda: <span class='changeColor0fCounter'>" + y + "</span> | " + "Sekunda: <span class='changeColor0fCounter'>" + (x - 1) + "</sapn>";
@@ -287,48 +320,48 @@ var flagEnter = true;
 function keyboardControl(ki){
 // window.alert(ki.which);
 // console.log(ki.which);
-var musicMute = document.getElementById("musicExercises");
-	switch(ki.which){
-		case 32:
-			pauseTimer();
-			break;
-		
-		case 13:
-			if (flagEnter){
-				enterData();
-				flagEnter = false;
+	var musicMute = document.getElementById("musicExercises");
+		switch(ki.which){
+			case 32:
+				pauseTimer();
 				break;
-			}
-			else {break;}
-		
-		case 109:
-			var tmp = musicOff.checked;
+			
+			case 13:
+				if (flagEnter){
+					enterData();
+					flagEnter = false;
+					break;
+				}
+				else {break;}
+			
+			case 109:
+				var tmp = musicOff.checked;
 
-			if (tmp){
-				musicOff.checked = false;
-				musicSilent();
-			}
-			else if (!tmp){
-				musicOff.checked = true;
-				musicSilent();
-			}
-			break;
-		
-		case 115:
-			sessionStop();
-			break;
-		
-		case 113:
-			reload();
-			break;
-		
-		case  102:
-			fScreen();
-			break;
-		case 112:
-			pauseTimer();
-			break;
-	}
+				if (tmp){
+					musicOff.checked = false;
+					musicSilent();
+				}
+				else if (!tmp){
+					musicOff.checked = true;
+					musicSilent();
+				}
+				break;
+			
+			case 115:
+				sessionStop();
+				break;
+			
+			case 113:
+				reload();
+				break;
+			
+			case  102:
+				fScreen();
+				break;
+			case 112:
+				pauseTimer();
+				break;
+		}
 }
 
 function fScreen(){
@@ -347,34 +380,39 @@ function showYogaPlanChoice(){
 	document.getElementsByClassName("yogaPlanChoice")[0].classList.toggle("yogaPlanChoiceShow");
 }
 
-// Show asans in order, random or in plan  -
-function startYogaPlan(){
-	yogaDay = document.getElementById("yogaMorning");
-	yogaEvening = document.getElementById("yogaEvening");
-	yoga15 = document.getElementById("yoga15");
-	yoga30 = document.getElementById("yoga30");
-	yoga60 = document.getElementById("yoga60");
+// Shows the clear button and clean the option buttons
+function startYogaPlanClearShowButton(){
+	document.getElementById("rundomAsanClear").style.visibility = "visible";
+	document.getElementById("rundomAsanSubmit").style.visibility = "hidden";
+	for (i = 0; i <= 4; i++){
+		document.getElementsByName("yogaPlan")[i].checked = false;
+		document.getElementById("rundomAsanSubmit").style.visibility = "hidden";
+	}
+}
 
-	if (yogaDay.checked){
-		alert("joga poranna działa");
+// Restarting the top menu settings -
+function startYogaPlanClear(){
+	document.getElementById("rundomAsanClear").style.visibility = "hidden";
+	for (i = 0; i <= 4; i++){
+		document.getElementsByName("yogaPlan")[i].checked = false;
+		document.getElementById("rundomAsanSubmit").style.visibility = "hidden";
 	}
-	else if (yogaEvening.checked){
-		alert("joga wieczór działa");
+	for (i = 0; i <= 2; i++){
+		document.getElementsByName("asans")[i].checked = false;
 	}
-	else if (yoga15.checked){
-		alert("joga 15` działa");
-	}
-	else if (yoga30.checked){
-		alert("joga 30` działa");
-	}
-	else if (yoga60.checked){
-		alert("joga 60` działa");
-	}
-	else {
-		engin();
-	}
-} 
+}
 
+// Shows the start button -
+function yogaPlanButtonShow(){
+	document.getElementById("rundomAsanClear").style.visibility = "visible";
+	document.getElementById("rundomAsanSubmit").style.visibility = "visible";
+	document.getElementById("rundomAsanSubmit").style.visibility = "visible";
+	for (i = 0; i <= 2; i++){
+		document.getElementsByName("asans")[i].checked = false;
+	}
+}
+
+// Asans in order or in rundom order -
 var asanNumber = 1;
 const resultRandom = [];
 var asanFlag = false;
@@ -382,20 +420,6 @@ function asanChoice(){
 	var asansPlace = document.getElementById("asansPlace");
 	var asansShow = document.getElementById("asansShow");
 	var asanRundom = Math.floor(Math.random() * 34 + 1); // how many pictures in a folder
-	var yogaEvening = document.getElementById("yogaEvening");
-	var rundomAsanSubmit = document.getElementById("rundomAsanSubmit");
-	
-	if (yogaEvening.checked){
-		rundomAsanSubmit.style.visibility = "visible";
-		asanFlag = true;
-		
-	}
-	
-	for (let i = 0; i < resultRandom.length; i++){
-		if (asanRundom === resultRandom[i]) {
-			return asanChoice();
-		}
-	}
 	
 	resultRandom.push(asanRundom);
 	
@@ -430,11 +454,28 @@ function asanChoice(){
 	}
 }
 
-function yogaPlan(){
-	var asansShow = document.getElementById("asansShow"),
-		asansRundom = document.getElementById("asansRundom");
-		
-		document.getElementById("rundomAsanSubmit").style.visibility = "visible";
-		asansShow.checked = true;
-		asansRundom.checked = false;
-}
+// Shows asanas according to the selected plan -
+
+function startYogaPlan(){
+	yogaDay = document.getElementById("yogaMorning");
+	yogaEvening = document.getElementById("yogaEvening");
+	yoga15 = document.getElementById("yoga15");
+	yoga30 = document.getElementById("yoga30");
+	yoga60 = document.getElementById("yoga60");
+
+	if (yogaDay.checked){
+		alert("Joga poranna w trakcie prac :)");
+	}
+	else if (yogaEvening.checked){
+		alert("Joga wieczorna w trakcie prac :)");
+	}
+	else if (yoga15.checked){
+		alert("Joga 15` w trakcie prac :)");
+	}
+	else if (yoga30.checked){
+		alert("Joga 30` w trakcie prac :)");
+	}
+	else if (yoga60.checked){
+		alert("Joga 60` w trakcie prac :)");
+	}
+} 
