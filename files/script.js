@@ -27,13 +27,13 @@ window.onload = function(){
 	document.getElementById("boksControlPauseStop").addEventListener("click", mobileBoksReset);
 	document.getElementById("boksControlPause").addEventListener("click", mobileBoksPause);
 
+	document.getElementById("boksPlanCustom").addEventListener("click", mobileBoksTotalRoundsTime);
+	
 	document.getElementById("boksPlanSubmit").addEventListener("click", customPlanChecker);
 	document.getElementById("first").addEventListener("click", function(){mobileBoksEngin("a");});
 	document.getElementById("second").addEventListener("click", function(){mobileBoksEngin("b");});
 	document.getElementById("third").addEventListener("click", function(){mobileBoksEngin("c");});
 	document.getElementById("fourth").addEventListener("click", function(){mobileBoksEngin("d");});
-
-
 
 // Keyboard control
 	document.addEventListener("keypress", keyboardControl);
@@ -41,6 +41,10 @@ window.onload = function(){
 }
 
 // Start exercising -
+var exerciseNumber = 0,
+	exerciseTime = 0,
+	sessionTime = 0,
+	now = 0;
 function enterData(){
 // checking if a plan form top menu has been selected
 	yogaDay = document.getElementById("yogaMorning");
@@ -65,7 +69,10 @@ function enterData(){
 	if (exerciseNumber == ""){exerciseNumber = 55;}
 	if (exerciseTime == "-1"){exerciseTime = 69;}
 
-	// Checking the correctness of the entered data: numbers, not string
+// Variable for counting down remaining session time	
+	sessionTime = exerciseNumber * (exerciseTime + 1);
+		
+// Checking the correctness of the entered data: numbers, not string
 	var exerciseNumberCheck = parseFloat(exerciseNumber);
 	var exerciseTimeCheck = parseFloat(exerciseTime);
 
@@ -156,7 +163,7 @@ function enterData(){
 		progressBarStatus();
 		engin();
 		clock();
-		timer();
+		currentTime();
 		asanChoice();
 }
 
@@ -278,9 +285,8 @@ var	t = 0; // Varible for counting time
 
 flagProgressBarClock = true;
 function progressBarStatus(){
-	var exerciseNumber = document.getElementById("exercises").value;
-
-	var exerciseTime = document.getElementById("seconds").value;
+	var exerciseNumber = document.getElementById("exercises").value,
+		exerciseTime = document.getElementById("seconds").value;
 	
 	if (exerciseNumber == ""){exerciseNumber = 55;}
 	if (exerciseTime == ""){exerciseTime = 70;}
@@ -295,6 +301,9 @@ function progressBarStatus(){
 	t = 1000 * z;
 	document.getElementById("procent").innerHTML = r + "%";
 	
+	if (r >= 30){progressBar.style.backgroundColor = "rgb(255, 87, 58)"}
+	if (r >= 50){progressBar.style.backgroundColor = "rgb(251, 255, 0)"}
+	if (r >= 80){progressBar.style.backgroundColor = "rgb(0, 153, 0)"}
 	if (flagProgressBarClock){setTimeout("progressBarStatus()", t);}
 }
 
@@ -337,7 +346,6 @@ var flagFullscrin = false;
 var flagEnter = true;
 function keyboardControl(ki){
 
-	var musicMute = document.getElementById("musicExercises");
 		switch(ki.which){
 			case 32:
 				pauseTimer();
@@ -584,6 +592,7 @@ function mobilePlanEngin(){
 		document.getElementById("boksTimer").innerHTML = "<span class='boksroundsBreak'> " + c + "</span>";
 		c--;
 		ringBell.play();
+
 // round highlight
 		var boksRounds = document.getElementById("boksRounds").innerHTML;
 		boksRounds = "";
@@ -607,42 +616,67 @@ function mobilePlanEngin(){
 					if (support < 0) {
 						ringBell.src = "./music/stopBell.mp3";
 						ringBell.play();
+						i++;
 					}
 				}
 				else {
 					if (z >= 0){
+						if (i == plan.length){
+							ringBell.src = "./music/endBell.mp3";
+							ringBell.play();
+							document.getElementById("boksTimer").innerHTML = "<span class='boksRoundsEnd'>Koniec</span>";
+							var boksRounds = document.getElementById("boksRounds");
+							boksRounds.className = "boksRoundsFinish"; 
+							mobileBoksFlag = false; // flag disabling function restart
+							return;	
+						}
 						document.getElementById("boksTimer").innerHTML = "<span class='boksroundsBreak'> " +  z + "</span>";
 						z--;
 					}
 					else {
+						// i++;
+						if (i >= plan.length){
+							ringBell.src = "./music/endBell.mp3";
+							ringBell.play();
+							document.getElementById("boksTimer").innerHTML = "<span class='boksRoundsEnd'>Koniec</span>";
+							var boksRounds = document.getElementById("boksRounds");
+							boksRounds.className = "boksRoundsFinish"; 
+							mobileBoksFlag = false; // flag disabling function restart
+							return;
+						}
+						support = plan[i] * 60;
 						ringBell.src = "./music/startBell.mp3";
 						ringBell.play();
 						document.getElementById("boksTimer").innerHTML = "<span class='go'>Go!</span>";
-						i++;
 						z = 60;
-						support = plan[i] * 60;
 					}
 				}
 			}
-			else {
-				ringBell.src = "./music/endBell.mp3";
-				ringBell.play();
-				document.getElementById("boksTimer").innerHTML = "<span class='boksRoundsEnd'>Koniec</span>";
-				var boksRounds = document.getElementById("boksRounds");
-				boksRounds.className = "boksRoundsFinish"; 
-				mobileBoksFlag = false; // flag disabling function restart
-			}
+			// else {
+			// 	ringBell.src = "./music/endBell.mp3";
+			// 	ringBell.play();
+			// 	document.getElementById("boksTimer").innerHTML = "<span class='boksRoundsEnd'>Koniec</span>";
+			// 	var boksRounds = document.getElementById("boksRounds");
+			// 	boksRounds.className = "boksRoundsFinish"; 
+			// 	mobileBoksFlag = false; // flag disabling function restart
+			// }
 // round highlight
-boksRounds = "";
-for (var tl = 0; tl < plan.length; tl++){
-	if (tl == i){
-		boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>"
+	boksRounds = "";
+	for (var tl = 0; tl < plan.length; tl++){
+		if (tl == i){
+			boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>"
+		}
+		else {
+			boksRounds = boksRounds + plan[tl];
+		}
 	}
-	else {
-		boksRounds = boksRounds + plan[tl];
-	}
-}
-document.getElementById("boksRounds").innerHTML = boksRounds;
+	document.getElementById("boksRounds").innerHTML = boksRounds;
+
+// music in background - to keep screen saver off
+	var backgroundMusic = document.getElementById("musicExercises");
+	backgroundMusic.src = "./music/backgroundMusic.mp3";
+	backgroundMusic.play();
+	backgroundMusic.volume ="0";
 
 // 	condition for running the countdown function			
 		if (mobileBoksFlag){
@@ -660,7 +694,7 @@ function mobileBoksPause(){
 }
 
 // Timer showing the current system time
-function timer(){
+function currentTime(){
 	document.getElementById("timer").style.display = "block";
 	var date = new Date();
 	var hour = date.getHours();
@@ -671,8 +705,43 @@ function timer(){
 	if (hour <=9) { hour = "0" + hour}
 	if (minutes <=9) { minutes = "0" + minutes}
 	if (seconds <=9) { seconds = "0" + seconds}
-	
+
 	var timer = hour + ":" + minutes + ":"+ seconds;
-	document.getElementById("timer").innerHTML = timer;
-	setTimeout("timer()", 1000);
+// How much time is left until the session is over 
+	var aux = sessionTime / 60;
+	sessionTime--;
+	var rounded = Math.round(aux);
+	if (rounded < 1){ rounded = "<1"}
+	document.getElementById("timer").innerHTML = timer + " (~" + rounded + "<span class='changeColor0fCounterSmall'> min</span>" + ")";
+
+	setTimeout("currentTime()", 1000);
+}
+
+function mobileBoksTotalRoundsTime(){
+	document.getElementById("leftTime").style.visibility = "visible";
+	var allPlan = document.getElementById("boksPlanCustom").value,
+		total = 0;
+
+	for (var i = 0; i < allPlan.length; i++){
+		total += parseFloat(allPlan[i]);
+	}
+
+	if (allPlan == ""){
+		document.getElementById("leftTime").style.visibility = "hidden";
+		document.getElementById("leftTime").style.color = "rgb(182, 182, 182)";
+
+	}
+	else {
+		if (total <= 14){
+		document.getElementById("leftTime").style.color = "rgb(182, 182, 182)";
+		}
+		if (total >= 15){
+			document.getElementById("leftTime").style.color = "rgb(59, 160, 0)";
+		}
+		if (total > 20){
+			document.getElementById("leftTime").style.color = "rgb(255, 0, 0)";
+		}
+		document.getElementById("leftTime").innerHTML = total + "`";
+	}
+	setTimeout("mobileBoksTotalRoundsTime()", 200);
 }
