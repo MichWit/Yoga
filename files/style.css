@@ -257,10 +257,10 @@ label {
     position: relative;
     display: inline-block;
     width: 60px;
-    height: 25px;
-    background-color: rgb(0, 104, 14);
+    height: 19px;
+    background-color: rgb(255, 116, 23);
 	border-radius: 25px;
-	border: 1px dotted rgb(59, 59, 59);
+	border: 3px solid  rgb(211, 94, 16);
     transition: all 0.3s;
     cursor: pointer;
 }
@@ -272,9 +272,9 @@ label {
     height: 30px;
 	border-radius: 20px;
 	border: 1px dotted rgb(165, 55, 55);
-    background-color: rgb(184, 182, 182);
-    top: -3px;
-    left: -3px;
+    background-color: rgba(173, 78, 0, 0.7);
+    top: -6px;
+    left: -5px;
     transition: all 0.6s;
 }
 .switch:hover::after {
@@ -283,7 +283,7 @@ label {
 }
 
 input[type='checkbox']:checked + .switch::after {
-	transform: translateX(36px);
+	transform: translateX(40px);
 }
 
 input[type='checkbox']:checked + .switch {
@@ -396,6 +396,10 @@ input[type='checkbox']:checked + .switch {
 .changeColor0fCounter {
 	color: #645568;
 	font-weight: 700;
+}
+
+.changeColor0fCounterSmall {
+	font-size: 20px;
 }
 
 .control {
@@ -557,6 +561,20 @@ input[type='checkbox']:checked + .switch {
 	visibility: hidden;
 }
 
+.timer {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	text-align: center;
+	width: 300px;
+	padding-bottom: 10px;
+	font-weight: 700;
+	font-size: 24px;
+	color:  #645568;
+	display: none;
+}
+
 .clock {
 	position: absolute;
 	bottom: 10px;
@@ -583,27 +601,209 @@ input[type='checkbox']:checked + .switch {
 	color:  #645568;
 }
 
-
+.boksContainer, .boksPlan,.mobileChoice, .boksPlanCustom, .boksPlanSubmit {
+	display: none;
+}
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 @media all and (max-width: 1024px) {
-*
-{
+* {
 	outline: none;
 }
-
+	
 body {
 	margin: 0;
 	padding: 0;
-	background-image: url("../graphics/backgroundS.jpg");
-	background-color: #cdc3b9;
+	background-image: none;
+	background-color: #000000;
 	background-size: cover;
 	background-repeat: no-repeat;
 	color: rgba(0, 0, 0, .5);
 	font-family: sans-serif;
 }
+		
+	/* Default view */
+.yogaPlanChoice {
+	display: none;
+}
 
+.container, .menu {
+	display: none;
+}
+
+.mobileBoxChoice, .mobileChoice {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+	color: white;
+	font-size: 30px;
+}
+
+	/* Front page - choice between Boks & Joga */
+.mobileChoice {
+	width: 98%;
+	height: 60px;
+	border-top: 1px solid yellow;
+	border-bottom: 1px solid yellow;
+	transform: translate(0%, -50%);
+}
+
+.mobileChoiceText {
+	text-transform: uppercase;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.mobileChoiceText:hover {
+	cursor: pointer;
+}
+
+.mobileChoiceLine {
+	min-height: 60%;
+	min-width: 1px;
+	background-color: yellow;
+}
+
+	/* Boks choiced */
+.boksPlanContainer {
+	flex-direction: column;
+	width: 100%;
+	height: 100vh;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	transform: translate(0, -100px);
+	display: none;
+}
+
+.boksPlan {
+	display: block;
+	width: 75%;
+	height: 40px;
+	border-radius: 5px;
+	border: 1px solid red;
+	font-size: 20px;
+	line-height: 20px;
+	text-transform: uppercase;
+	margin-bottom: 30px;
+	color: #fff;
+	padding: 10px;
+	text-align: center;
+	background-color: rgb(58, 58, 58);
+	box-shadow: -1px -1px 2px rgb(116, 5, 5);
+	transition: 0;
+}
+
+.boksPlan:focus {
+	transition: .1s;
+	transform: scale(0.97);
+}
+
+.boksPlanCustom, .boksPlanSubmit {
+	text-align: center;
+	height: 40px;
+	font-size: 20px;
+	color: #fff;
+	background-color: rgb(58, 58, 58);
+	border: 1px solid red;
+	border-radius: 5px;
+	margin-bottom: 30px;
+	padding: 0;
+}
+
+.boksPlanCustom {
+	width: 75%;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	letter-spacing: 10px;
+}
+
+.boksPlanSubmit {
+	width: 200px;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: red;
+	font-weight: 700;
+}
+
+.boksContainer {
+	display: flex;
+	flex-wrap: wrap;
+	width: 99%;
+	height: 99vh;
+	position: fixed;
+	align-items: center;
+	justify-content: center;
+}
+
+.boksTimer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 160px;
+	color: #fff;
+	margin: 50px;
+}
+
+.boksRounds {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 60px;
+	color: rgb(151, 151, 151);
+	margin-left: 75px;
+	margin-right: 75px;
+	letter-spacing: 10px;
+}
+
+.boksRoundsEnd {
+	font-size: 80px;
+	color: rgb(240, 240, 0);
+}
+
+.boksRoundRun {
+	font-size: 80px;
+	color: rgb(190, 11, 11);
+	letter-spacing: 10px;
+}
+
+.boksroundsBreak {
+	color: rgb(0, 150, 0);
+}
+
+.go {
+	color: rgb(190, 11, 11);
+}
+
+.boksRoundsFinish {
+	color: rgb(190, 11, 11);
+	font-size: 80px;
+}
+
+.boksControl {
+	display: flex;
+	justify-content: center;
+}
+
+.boksControlPauseStop {
+	width: 150px;
+	height: 40px;
+	text-transform: uppercase;
+	font-size: 20px;
+	font-weight: 700;
+	background-color: rgb(226, 226, 226);
+	letter-spacing: 3px;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-radius: 5px;
+}
+
+
+/* Joga choiced */
 .menu {
+	align-content: center;
 	width: 100%;
 	padding: 15px;
 	box-sizing: border-box;
@@ -611,7 +811,9 @@ body {
 }
 
 .musicChoice {
-	float: left;
+	display: flex;
+	justify-content: center;
+	width: 100%;
 }
 
 .musicChoice label:hover {
@@ -620,8 +822,8 @@ body {
 
 .musicChoice label {
 	display: inline-block;
-	color: rgba(0, 0, 0, .5);
-	margin: 0;
+	color: rgb(71, 71, 71);
+	margin: 5px;
 }
 
 .musicMute {
@@ -639,7 +841,7 @@ body {
 .switch {
     position: relative;
     display: inline-block;
-    width: 35px;
+    width: 55px;
     height: 18px;
     background-color: rgba(0, 0, 0, .5);
     border-radius: 25px;
@@ -651,17 +853,17 @@ body {
 .switch::after {
 	content: '';
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 28px;
-    background-color: #fff;
-    top: -2px;
+    background-color: #850000;
+    top: -4px;
     left: -3px;
     transition: all 0.3s;
 }
 
 input[type='checkbox']:checked + .switch::after {
-    transform: translateX(20px);
+    transform: translateX(40px);
 }
 
 input[type='checkbox']:checked + .switch {
@@ -678,7 +880,7 @@ input[type='checkbox']:checked + .switch {
     top: 340px;
     left: 50%;
     transform: translate(-50%, -50%);
-	width: 70%;
+	width: 90%;
 	box-sizing: border-box;
 	padding: 20px;
 	background-color: rgba(0, 0, 0, .5);
@@ -692,12 +894,13 @@ input[type='checkbox']:checked + .switch {
 	float: right;
 	text-align: center;
 	color: rgb(158, 158, 158, .9);
-	font-size: 16px;
+	font-size: 20px;
 	padding-top: 16px;
 }
 
 .shortcuts {
 	display: none;
+	color: rgb(71, 71, 71);
 }
 
 #mobileInformation {
@@ -721,23 +924,23 @@ input[type='checkbox']:checked + .switch {
 }
 
 .control > input {
-display: none;
+	display: none;
 }
 
 [class^="icon-"]:before, [class*=" icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
-  font-size: 30px;
-  color: rgb(158, 158, 158, .9);
+  font-size: 40px;
+  color: rgba(100, 100, 100, 0.9);
   cursor: pointer;
-
+  margin: 2px;
 }
 
-.icon-fast-fw:before { content: '\e800'; } /* '' */
-.icon-pause:before { content: '\e801'; } /* '' */
-.icon-stop:before { content: '\e802'; margin-left: 10px;} /* '' */
-.icon-eject:before { content: '\e803'; margin-left: 10px;} /* '' */
+.icon-fast-fw:before { content: '\e800'; }
+.icon-pause:before { content: '\e801'; }
+.icon-stop:before { content: '\e802'; margin-left: 10px;}
+.icon-eject:before { content: '\e803'; margin-left: 10px;}
 
 .dataIn, .verticalLine, .animationPlace {
 	display: none; 
@@ -748,26 +951,12 @@ display: none;
 	height: 50%;
 	float: right;
 	text-align: center;
-	color: rgb(158, 158, 158, .9);
-	font-size: 18px;
+	color: rgba(107, 105, 105, 0.9);
+	font-size: 20px;
 	padding-top: 20px;
 }
 
-.progressBar {
-	position: absolute;
-	right: 0px;
-	bottom: 10px;
-	width: 4px;
-	height: 1px;
-	max-height: 95%;
-	border-radius: 10px;
-	background-color: #d4d000;
-	margin-top: 40px;
-	visibility: hidden;
+ .progress, .progressBar, .procent {
+display: none;
 }
 
-.yogaPlanChoice {
-	display: none;
-}
-
-}

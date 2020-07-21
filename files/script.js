@@ -1,4 +1,5 @@
 window.onload = function(){
+
 // Listening for click events and setting variables -
 	document.getElementById("tosia").addEventListener("click", enterData);
 	document.getElementById("musicOff").addEventListener("click", musicSilent);
@@ -19,7 +20,21 @@ window.onload = function(){
 	document.getElementById("rundomAsanSubmit").addEventListener("click", startYogaPlan);
 	document.getElementById("planChoiceContainerDesktop").addEventListener("mouseleave", showYogaPlanChoice);
 	document.getElementsByClassName("yogaPlanChoiceButton")[0].addEventListener("mouseover", showYogaPlanChoice);
-	
+
+// Mobile
+	document.getElementById("mobileJoga").addEventListener("click", mobileYoga);
+	document.getElementById("mobileBoks").addEventListener("click", mobileBoks);
+	document.getElementById("boksControlPauseStop").addEventListener("click", mobileBoksReset);
+	document.getElementById("boksControlPause").addEventListener("click", mobileBoksPause);
+
+	document.getElementById("boksPlanSubmit").addEventListener("click", customPlanChecker);
+	document.getElementById("first").addEventListener("click", function(){mobileBoksEngin("a");});
+	document.getElementById("second").addEventListener("click", function(){mobileBoksEngin("b");});
+	document.getElementById("third").addEventListener("click", function(){mobileBoksEngin("c");});
+	document.getElementById("fourth").addEventListener("click", function(){mobileBoksEngin("d");});
+
+
+
 // Keyboard control
 	document.addEventListener("keypress", keyboardControl);
 	document.addEventListener("dblclick", fScreen);
@@ -141,6 +156,7 @@ function enterData(){
 		progressBarStatus();
 		engin();
 		clock();
+		timer();
 		asanChoice();
 }
 
@@ -197,6 +213,8 @@ var x = 0, // Variable to count down seconds
 	y = 0, // Variable to count down rounds
 	asanChoiceFull = 0; //variable to check asans image number
 function engin(){
+	document.getElementById("musicChoice").style.display = "none";
+
 	var music = document.getElementById("musicExercises");
 	if (pause){
 		music.pause();
@@ -212,7 +230,7 @@ function engin(){
 	var timerSide = document.getElementById("timerSide");
 	timerSide.className = "timerSide";
 	var exercisesTimeAdd = exerciseTime + 1;
-	timerSide.innerHTML = "<span class='changeColor0fCounter'>" + exerciseNumber + "r</span>" +  " po " + "<span class='changeColor0fCounter'>" + exercisesTimeAdd + "s</span>"; 
+	timerSide.innerHTML = "<span class='changeColor0fCounter'>" + exerciseNumber + "</span><span class='changeColor0fCounterSmall'> rund | </span> <span class='changeColor0fCounter'>" + exercisesTimeAdd + "</span><span class='changeColor0fCounterSmall'> sekund</span>"; 
 	var music = document.getElementById("musicExercises");
 	var asansPlaceAfter = document.getElementById("asansPlace");
 
@@ -318,8 +336,7 @@ clockPlace.innerHTML = h + " : "+ m + " : " + s;
 var flagFullscrin = false;
 var flagEnter = true;
 function keyboardControl(ki){
-// window.alert(ki.which);
-// console.log(ki.which);
+
 	var musicMute = document.getElementById("musicExercises");
 		switch(ki.which){
 			case 32:
@@ -479,3 +496,183 @@ function startYogaPlan(){
 		alert("Joga 60` w trakcie prac :)");
 	}
 } 
+
+// Mobile - Mobile - Mobile
+
+// Yoga choiced
+function mobileYoga(){
+	document.getElementById("container").style.display = "block";
+	document.getElementById("menu").style.display = "block";
+	document.getElementById("boxAll").style.display = "none";
+	document.body.style.backgroundColor = "#fff";
+	document.body.style.backgroundImage = "url('./graphics/backgroundM.jpg')";
+	flagFullscrin = true;
+	fScreen();
+}
+
+// Boks choiced
+function mobileBoks(){
+	document.getElementById("mobileBoxChoice").style.display = "none";
+	document.getElementById("boksPlanContainer").style.display = "flex";
+	document.getElementById("boksPlanCustom").style.display = "flex";
+	document.getElementById("boksPlanSubmit").style.display = "block";
+	flagFullscrin = true;
+	fScreen();
+}
+
+// checking the correctness of the entered data 
+function customPlanChecker(){
+	var customPlan = document.getElementById("boksPlanCustom").value;	
+	if(isNaN(customPlan) || customPlan == "" || customPlan == " " || customPlan == "  "){
+		alert("Pole jest puste, bądź wprowadzone dane są nieprawidłowe.");
+		return;
+	}
+	else {
+		mobileBoksEngin();
+	}
+}
+
+var plan = [],
+	support,
+	i = 0, // variable controlling the number of rounds
+	j = 1, // variable that imitates one second
+	z = 60, // variable controlling the break between rounds (in seconds)
+	c = 3, // varible controlling first X seconds before starting
+	mobileBoksFlag = true; // flag enabling / disabling function restart
+function mobileBoksEngin(evn){
+// custom plan
+	var customPlan = document.getElementById("boksPlanCustom").value;
+	document.getElementById("boksPlanContainer").style.display = "none";
+	
+	switch(evn){
+		case "a": 
+			plan = [1, 2, 1, 2, 1]; // selected round plan
+			break;
+		
+		case "b": 
+			plan = [1, 2, 3, 2, 1]; // selected round plan
+			break;
+		
+		case "c": 
+			plan = [1, 2, 3, 3, 2, 1]; // selected round plan
+			break;
+		
+		case "d":
+			plan = [2, 3, 3, 3, 3, 2]; // selected round plan
+			break;
+		
+		default:
+				plan = customPlan; // user compouse round plan
+			break;
+	}
+		support = plan[i] * 60; // sets the length of rounds (in seconds)
+		
+		setTimeout("mobilePlanEngin()", 1000);	
+}
+
+// function supporting the clock, breaks and end of exercise.
+function mobilePlanEngin(){
+	var ringBell = document.getElementById("roundsSound");
+
+// 	counting down to start
+	if (c >= 0){
+		ringBell.src = "./music/countingDown.mp3";
+		if (c == 0){
+			ringBell.src = "./music/startBell.mp3";
+			c = "<span class='go'>Go!</span>";
+		}
+		document.getElementById("boksTimer").innerHTML = "<span class='boksroundsBreak'> " + c + "</span>";
+		c--;
+		ringBell.play();
+// round highlight
+		var boksRounds = document.getElementById("boksRounds").innerHTML;
+		boksRounds = "";
+		for (var tl = 0; tl < plan.length; tl++){
+			if (tl == i){
+				boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>"
+			}
+			else {
+				boksRounds = boksRounds + plan[tl];
+			}
+		}
+		document.getElementById("boksRounds").innerHTML = boksRounds;
+		setTimeout("mobilePlanEngin()", 1000);
+	}
+	else {
+//	round counter
+		if (i <= plan.length){
+			if (support >= 0){
+					document.getElementById("boksTimer").innerHTML = support;
+					support = support - j;
+					if (support < 0) {
+						ringBell.src = "./music/stopBell.mp3";
+						ringBell.play();
+					}
+				}
+				else {
+					if (z >= 0){
+						document.getElementById("boksTimer").innerHTML = "<span class='boksroundsBreak'> " +  z + "</span>";
+						z--;
+					}
+					else {
+						ringBell.src = "./music/startBell.mp3";
+						ringBell.play();
+						document.getElementById("boksTimer").innerHTML = "<span class='go'>Go!</span>";
+						i++;
+						z = 60;
+						support = plan[i] * 60;
+					}
+				}
+			}
+			else {
+				ringBell.src = "./music/endBell.mp3";
+				ringBell.play();
+				document.getElementById("boksTimer").innerHTML = "<span class='boksRoundsEnd'>Koniec</span>";
+				var boksRounds = document.getElementById("boksRounds");
+				boksRounds.className = "boksRoundsFinish"; 
+				mobileBoksFlag = false; // flag disabling function restart
+			}
+// round highlight
+boksRounds = "";
+for (var tl = 0; tl < plan.length; tl++){
+	if (tl == i){
+		boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>"
+	}
+	else {
+		boksRounds = boksRounds + plan[tl];
+	}
+}
+document.getElementById("boksRounds").innerHTML = boksRounds;
+
+// 	condition for running the countdown function			
+		if (mobileBoksFlag){
+			setTimeout("mobilePlanEngin()", 1000);
+		}
+	}
+}
+
+function mobileBoksReset(){
+	location.reload();
+}
+
+function mobileBoksPause(){
+	alert("Klinnij by kontynować... ");
+}
+
+// Timer showing the current system time
+function timer(){
+	document.getElementById("timer").style.display = "block";
+	var date = new Date();
+	var hour = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	// var miliseconds = date.getMilliseconds();
+
+	if (hour <=9) { hour = "0" + hour}
+	if (minutes <=9) { minutes = "0" + minutes}
+	if (seconds <=9) { seconds = "0" + seconds}
+	
+	var timer = hour + ":" + minutes + ":"+ seconds;
+	document.getElementById("timer").innerHTML = timer;
+	setTimeout("timer()", 1000);
+}
