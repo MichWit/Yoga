@@ -1,5 +1,6 @@
-1. Dodanie zliczania czasu rund w opcji custom wraz ze zmianą koloru
-2. Zmiana koloru paska postępu w miarę upływu czasu (30, 50, 80)
-3. Dodanie czasu, jaki pozostał do zakończenia sesji jogi
-4. Wyciszony dźwięk w tle, by utrzymać działanie podczas zablokowanego ekranu
-5. Poprawa błędu dodatkowej, nieplanowanej rundy
+
+    1. Poprawienie wyświetlania pozostałego czasu sesji jogi - 0, gdy pozostało < 30 sekund; 
+    2. Poprawienie działania przycisku Pauzy w boksie;
+    3. Wyrzucenie muzyki w tle jako nieskutecznej;
+    4. Odliczane trzy ostatnie sekundy rundy - nowy dźwięk;
+    5. 

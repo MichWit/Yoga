@@ -542,6 +542,7 @@ function customPlanChecker(){
 
 var plan = [],
 	support,
+	supportCount, // for last tree seconds od each round - bell
 	i = 0, // variable controlling the number of rounds
 	j = 1, // variable that imitates one second
 	z = 60, // variable controlling the break between rounds (in seconds)
@@ -580,6 +581,13 @@ function mobileBoksEngin(evn){
 
 // function supporting the clock, breaks and end of exercise.
 function mobilePlanEngin(){
+
+// checking of pause flag
+	if (mobileBoksPauseFlag == false){
+		setTimeout("mobilePlanEngin()", 300);
+		return;
+	}
+
 	var ringBell = document.getElementById("roundsSound");
 
 // 	counting down to start
@@ -598,22 +606,32 @@ function mobilePlanEngin(){
 		boksRounds = "";
 		for (var tl = 0; tl < plan.length; tl++){
 			if (tl == i){
-				boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>"
+				boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>";
 			}
 			else {
 				boksRounds = boksRounds + plan[tl];
 			}
 		}
 		document.getElementById("boksRounds").innerHTML = boksRounds;
+
+
 		setTimeout("mobilePlanEngin()", 1000);
 	}
 	else {
+// last tree secunds of round - ring bell 
+
+		if (supportCount < 4 && supportCount > 0) {
+			ringBell.src = "./music/countingEndRoundDown.mp3";
+			ringBell.play();
+		}
+		supportCount = 5;
 //	round counter
 		if (i <= plan.length){
 			if (support >= 0){
 					document.getElementById("boksTimer").innerHTML = support;
 					support = support - j;
-					if (support < 0) {
+					supportCount = support;
+					 if (support < 0) {
 						ringBell.src = "./music/stopBell.mp3";
 						ringBell.play();
 						i++;
@@ -634,7 +652,6 @@ function mobilePlanEngin(){
 						z--;
 					}
 					else {
-						// i++;
 						if (i >= plan.length){
 							ringBell.src = "./music/endBell.mp3";
 							ringBell.play();
@@ -652,31 +669,26 @@ function mobilePlanEngin(){
 					}
 				}
 			}
-			// else {
-			// 	ringBell.src = "./music/endBell.mp3";
-			// 	ringBell.play();
-			// 	document.getElementById("boksTimer").innerHTML = "<span class='boksRoundsEnd'>Koniec</span>";
-			// 	var boksRounds = document.getElementById("boksRounds");
-			// 	boksRounds.className = "boksRoundsFinish"; 
-			// 	mobileBoksFlag = false; // flag disabling function restart
-			// }
+
 // round highlight
-	boksRounds = "";
+var boksRounds = document.getElementById("boksRounds").innerHTML;
+boksRounds = "";
 	for (var tl = 0; tl < plan.length; tl++){
 		if (tl == i){
-			boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>"
+			boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>";
 		}
 		else {
 			boksRounds = boksRounds + plan[tl];
 		}
 	}
+	
 	document.getElementById("boksRounds").innerHTML = boksRounds;
 
-// music in background - to keep screen saver off
-	var backgroundMusic = document.getElementById("musicExercises");
-	backgroundMusic.src = "./music/backgroundMusic.mp3";
-	backgroundMusic.play();
-	backgroundMusic.volume ="0";
+// // music in background - to keep screen saver off
+// 	var backgroundMusic = document.getElementById("musicExercises");
+// 	backgroundMusic.src = "./music/backgroundMusic.mp3";
+// 	backgroundMusic.play();
+// 	backgroundMusic.volume ="0";
 
 // 	condition for running the countdown function			
 		if (mobileBoksFlag){
@@ -689,8 +701,21 @@ function mobileBoksReset(){
 	location.reload();
 }
 
+var mobileBoksPauseFlag = true;
 function mobileBoksPause(){
-	alert("Klinnij by kontynować... ");
+	mobileBoksPauseFlag = mobileBoksPauseFlag ? false : true; 
+	var pauseButton = document.getElementById("boksControlPause");
+
+	if (mobileBoksPauseFlag == false){
+		pauseButton.value = "Wznów";
+		pauseButton.className = "boksControlPauseStopActive";
+	}
+	else {
+		pauseButton.value = "Pauza";
+		pauseButton.className = "boksControlPauseStop";
+
+	}
+	
 }
 
 // Timer showing the current system time
@@ -711,8 +736,15 @@ function currentTime(){
 	var aux = sessionTime / 60;
 	sessionTime--;
 	var rounded = Math.round(aux);
-	if (rounded < 1){ rounded = "<1"}
-	document.getElementById("timer").innerHTML = timer + " (~" + rounded + "<span class='changeColor0fCounterSmall'> min</span>" + ")";
+// if (rounded < 2){ rounded = "<2"}
+	if (rounded < 1){
+		rounded = "0"
+		document.getElementById("timer").innerHTML = timer + " (" + rounded + "<span class='changeColor0fCounterSmall'> min</span>" + ")";
+
+	}
+	else {
+		document.getElementById("timer").innerHTML = timer + " (~" + rounded + "<span class='changeColor0fCounterSmall'> min</span>" + ")";
+	}
 
 	setTimeout("currentTime()", 1000);
 }
