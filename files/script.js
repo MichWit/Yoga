@@ -232,7 +232,7 @@ function engin(){
 
 	var timerMain = document.getElementById("information");
 	timerMain.className = "timerMain";
-	timerMain.innerHTML = "Runda: <span class='changeColor0fCounter'>" + y + "</span> | " + "Sekunda: <span class='changeColor0fCounter'>" + x + "</sapn>";
+	timerMain.innerHTML = "<span class='rundaAndsekunda'>Runda: </span><span class='changeColor0fCounter'>" + y + "</span> | " + "<span class='rundaAndsekunda'>Sekunda: </span><span class='changeColor0fCounter'>" + x + "</sapn>";
 	
 	var timerSide = document.getElementById("timerSide");
 	timerSide.className = "timerSide";
@@ -246,7 +246,10 @@ function engin(){
 		music.currentTime = 0;
 		sessionEnd();
 		flagProgressBarClock = false
-		if (asanFlag){
+		timerMain.innerHTML = "<span class='endInfo'>KONIEC..</span>";
+		return;
+/* 		because of "return" above, the code below seems to be unnecessary - for testing!
+			if (asanFlag){
 			document.getElementById("container").style.visibility = "visible";
 			document.getElementById("menu").style.visibility = "visible";
 			document.getElementById("progressBar").style.visibility = "visible";
@@ -257,7 +260,7 @@ function engin(){
 			document.body.style.backgroundImage = "url('../graphics/03.jpg')";
 			asansPlaceAfter.className = "asansPlaceHidden";
 		}
-		timerMain.innerHTML = "Runda: <span class='changeColor0fCounter'>" + y + "</span> | " + "Sekunda: <span class='changeColor0fCounter'>" + (x - 1) + "</sapn>";
+		timerMain.innerHTML = "<span class='rundaAndsekunda'>Runda: </span><span class='changeColor0fCounter'>" + y + "</span> | " + "<span class='rundaAndsekunda'>Sekunda: </span><span class='changeColor0fCounter'>" + (x - 1) + "</sapn>"; */
 	}
 	else if (x <= exerciseTime  && stop) {
 		x++;
@@ -266,7 +269,7 @@ function engin(){
 	else if (stop) {
 		roundsSound();
 		y++;
-		timerMain.innerHTML = "Runda: <span class='changeColor0fCounter'>" + y + "</span> | " + "Sekunda: <span class='changeColor0fCounter'>" + x + "</sapn>";
+		timerMain.innerHTML = "<span class='rundaAndsekunda'>Runda: </span><span class='changeColor0fCounter'>" + y + "</span> | " + "<span class='rundaAndsekunda'>Sekunda: </span><span class='changeColor0fCounter'>" + x + "</sapn>";
 		x = 1;
 		setTimeout("engin()", 1000);
 // Important !!!!	
@@ -514,8 +517,6 @@ function mobileYoga(){
 	document.getElementById("boxAll").style.display = "none";
 	document.body.style.backgroundColor = "#fff";
 	document.body.style.backgroundImage = "url('./graphics/backgroundM.jpg')";
-	flagFullscrin = true;
-	fScreen();
 }
 
 // Boks choiced
@@ -524,8 +525,6 @@ function mobileBoks(){
 	document.getElementById("boksPlanContainer").style.display = "flex";
 	document.getElementById("boksPlanCustom").style.display = "flex";
 	document.getElementById("boksPlanSubmit").style.display = "block";
-	flagFullscrin = true;
-	fScreen();
 }
 
 // checking the correctness of the entered data 
@@ -575,7 +574,8 @@ function mobileBoksEngin(evn){
 			break;
 	}
 		support = plan[i] * 60; // sets the length of rounds (in seconds)
-		
+		flagFullscrin = true;
+		fScreen();
 		setTimeout("mobilePlanEngin()", 1000);	
 }
 
@@ -619,12 +619,19 @@ function mobilePlanEngin(){
 	}
 	else {
 // last tree secunds of round - ring bell 
-
 		if (supportCount < 4 && supportCount > 0) {
 			ringBell.src = "./music/countingEndRoundDown.mp3";
 			ringBell.play();
 		}
 		supportCount = 5;
+// last five secunds of break - ring bell 
+		if (z < 5 && z >= 0) {
+			ringBell.src = "./music/countingEndRoundDown.mp3";
+			if (z == 0){
+				ringBell.src = "./music/countingEndRoundDownLonger.mp3";
+			}
+			ringBell.play();
+		}
 //	round counter
 		if (i <= plan.length){
 			if (support >= 0){
@@ -646,6 +653,7 @@ function mobilePlanEngin(){
 							var boksRounds = document.getElementById("boksRounds");
 							boksRounds.className = "boksRoundsFinish"; 
 							mobileBoksFlag = false; // flag disabling function restart
+							mobileBoksResetFlag = false; // flag disabling reset confirm 
 							return;	
 						}
 						document.getElementById("boksTimer").innerHTML = "<span class='boksroundsBreak'> " +  z + "</span>";
@@ -659,6 +667,7 @@ function mobilePlanEngin(){
 							var boksRounds = document.getElementById("boksRounds");
 							boksRounds.className = "boksRoundsFinish"; 
 							mobileBoksFlag = false; // flag disabling function restart
+							mobileBoksResetFlag = false; // flag disabling reset confirm 
 							return;
 						}
 						support = plan[i] * 60;
@@ -671,24 +680,18 @@ function mobilePlanEngin(){
 			}
 
 // round highlight
-var boksRounds = document.getElementById("boksRounds").innerHTML;
-boksRounds = "";
-	for (var tl = 0; tl < plan.length; tl++){
-		if (tl == i){
-			boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>";
+	var boksRounds = document.getElementById("boksRounds").innerHTML;
+	boksRounds = "";
+		for (var tl = 0; tl < plan.length; tl++){
+			if (tl == i){
+				boksRounds = boksRounds + "<span class='boksRoundRun'>" + plan[tl] + "</span>";
+			}
+			else {
+				boksRounds = boksRounds + plan[tl];
+			}
 		}
-		else {
-			boksRounds = boksRounds + plan[tl];
-		}
-	}
 	
 	document.getElementById("boksRounds").innerHTML = boksRounds;
-
-// // music in background - to keep screen saver off
-// 	var backgroundMusic = document.getElementById("musicExercises");
-// 	backgroundMusic.src = "./music/backgroundMusic.mp3";
-// 	backgroundMusic.play();
-// 	backgroundMusic.volume ="0";
 
 // 	condition for running the countdown function			
 		if (mobileBoksFlag){
@@ -697,8 +700,17 @@ boksRounds = "";
 	}
 }
 
+var mobileBoksResetFlag = true;
 function mobileBoksReset(){
-	location.reload();
+	if (mobileBoksResetFlag == true){
+	var confirmation =  confirm("Jesteś pewien, że chcesz zrezygnować?");
+		if (confirmation == true){
+			location.reload();
+		}
+	}
+	else {
+		location.reload();
+	}
 }
 
 var mobileBoksPauseFlag = true;
@@ -713,9 +725,7 @@ function mobileBoksPause(){
 	else {
 		pauseButton.value = "Pauza";
 		pauseButton.className = "boksControlPauseStop";
-
 	}
-	
 }
 
 // Timer showing the current system time
